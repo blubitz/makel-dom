@@ -1,4 +1,4 @@
-import createElement from '../src/index';
+import createElement from '../lib/index';
 
 describe('list all possibilities', () => {
     it('should return <div></div>', () => {

@@ -1,27 +1,9 @@
-/**
- * Create a DOM element from a CSS query with option to include content
- *
- * @author Laurent Blanes <laurent.blanes@gmail.com>
- * @param {String} querySelector (optional) default to div
- * @param {...*} [content] (optional) String|Number|DOMElement
- * @return DOMElement
- *
- * @example
- * - createElement(); // <div>
- * - createElement('span#my-id.my-class.second-class'); // <span id="my-id" class="my-class second-class">
- * - createElement('#my-id.my-class.second-class', 'text to insert', 12345); // <div id="my-id" class="my-class second-class">
- * - const div = createElement('#my-div',
- *     'Random text',
- *     createElement('p.paragraph', 'my text'),
- *     createElement('p.paragraph', 'my second text'),
- *     createElement('a.link[href=https://github.com/hekigan/create-element]', 'link to a site'),
- * ); // <div id="my-id" class="my-class second-class">
- *    //   Random text
- *    //   <p class="paragraph">my text</p>
- *    //   <p class="paragraph">my second text</p>
- *    //   <a class="link" href="https://github.com/hekigan/create-element" class="paragraph">link to a site</a>
- *    // </div>
- */
+/* This Source Code Form is subject to the terms of the Mozilla Public
+ * License, v. 2.0. If a copy of the MPL was not distributed with this
+ * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
+
+// Create a DOM element from a CSS query with option to include content
+
 export default function createElement (querySelector = 'div', ...content) {
     let nodeType = querySelector.match(/^[a-z0-9]+/i);
     let id = querySelector.match(/#([a-z]+[a-z0-9-]*)/gi);

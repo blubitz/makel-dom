@@ -1,19 +1,10 @@
-# dom-create-element-query-selector
-
-![Node](https://img.shields.io/node/v/dom-create-element-query-selector.svg?style=flat-square)
-[![NPM](https://img.shields.io/npm/v/dom-create-element-query-selector.svg?style=flat-square)](https://www.npmjs.com/package/dom-create-element-query-selector)
-[![Travis](https://img.shields.io/travis/hekigan/dom-create-element-query-selector/master.svg?style=flat-square)](https://travis-ci.org/hekigan/dom-create-element-query-selector)
-[![Coverage Status](https://coveralls.io/repos/github/hekigan/dom-create-element-query-selector/badge.svg?branch=master)](https://coveralls.io/github/hekigan/dom-create-element-query-selector?branch=master)
+# dom-create-element-query-selector-fork
 
 > A utility function to create DOM elements with CSS selector-like syntax
 
 ### Description
 
-As I had to use vanilla Javascript for a project, I got upset with how verbose it was to create DOM elements.
-
-I use the same css-selector-like syntax as `document.querySelector()` to create the new Nodes in a more compact, simple and readable way.
-
-There are no dependencies and multiple versions are available (es5, es6, UMD). See the BUILD section below for more information. 
+This project was forked from [hekigan](https://github.com/hekigan/dom-create-element-query-selector) and will be under devleopment.
 
 ### Usage
 
@@ -79,24 +70,24 @@ or npm
 
 ### Examples
 
-See [`example`](example/script.js) folder or the [runkit](https://runkit.com/hekigan/dom-create-element-query-selector) example.
+See [`example`](example/script.js) folder or the ~~[runkit](https://runkit.com/hekigan/dom-create-element-query-selector) example.~~
 
 ### Builds
 
-If you don't use a package manager, you can [access `dom-create-element-query-selector` via unpkg (CDN)](https://unpkg.com/dom-create-element-query-selector/), download the source, or point your package manager to the url.
+If you don't use a package manager, you can ~~[access `dom-create-element-query-selector` via unpkg (CDN)](https://unpkg.com/dom-create-element-query-selector/)~~, download the source, or point your package manager to the url.
 
 `dom-create-element-query-selector` is compiled as a collection of [CommonJS](http://webpack.github.io/docs/commonjs.html) modules & [ES2015 modules](http://www.2ality.com/2014/09/es6-modules-final.html) for bundlers that support the `jsnext:main` or `module` field in package.json (Rollup, Webpack 2)
 
-The `dom-create-element-query-selector` package includes precompiled production and development [UMD](https://github.com/umdjs/umd) builds in the [`dist` folder](https://unpkg.com/dom-create-element-query-selector/dist/). They can be used directly without a bundler and are thus compatible with many popular JavaScript module loaders and environments. You can drop a UMD build as a [`<script>` tag](https://unpkg.com/dom-create-element-query-selector) on your page. The UMD builds make `dom-create-element-query-selector` available as a `window.createElement` global variable.
+~~The `dom-create-element-query-selector` package includes precompiled production and development [UMD](https://github.com/umdjs/umd) builds in the [`dist` folder](https://unpkg.com/dom-create-element-query-selector/dist/). They can be used directly without a bundler and are thus compatible with many popular JavaScript module loaders and environments. You can drop a UMD build as a [`<script>` tag](https://unpkg.com/dom-create-element-query-selector) on your page. The UMD builds make `dom-create-element-query-selector` available as a `window.createElement` global variable.~~
 
 ### License
 
-The code is available under the [MIT](LICENSE) license.
+The code is available under the [MPL-2.0](LICENSE) license.
 
 ### Contributing
 
-We are open to contributions, see [CONTRIBUTING.md](CONTRIBUTING.md) for more info.
+We are open to contributions, ~~see [CONTRIBUTING.md](CONTRIBUTING.md) for more info.~~
 
 ### Misc
 
-This module was created using [generator-module-boilerplate](https://github.com/duivvv/generator-module-boilerplate).
+This module was created using [generator-module-boilerplate](https://github.com/duivvv/generator-module-boilerplate). But not anymore.
