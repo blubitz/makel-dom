@@ -31,10 +31,10 @@
     "css"
   ],
   "author": "blubitz",
-  "license": "BSD-3-Clause",
+  "license": "MPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/blubitz/dom-create-element-query-selector.git"
+    "url": "https://github.com/blubitz/dom-create-element-query-selector-fork.git"
   },
   "private": true,
   "devDependencies": {
