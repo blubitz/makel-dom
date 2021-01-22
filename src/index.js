@@ -5,10 +5,15 @@
 // Create a DOM element from a CSS query with option to include content
 
 export default function createElement (querySelector = 'div', ...content) {
+    const attr_regex = /\[([a-z][a-z-]+)(=['|"]?([^\]]*)['|"]?)?\]/gi
+    let attributes = querySelector.match(attr_regex);
+
+    // remove all attribute tags before continuing matching
+    querySelector = querySelector.replace(attr_regex, '')
+
     let nodeType = querySelector.match(/^[a-z0-9]+/i);
     let id = querySelector.match(/#([a-z]+[a-z0-9-]*)/gi);
     let classes = querySelector.match(/\.([a-z]+[a-z0-9-]*)/gi);
-    let attributes = querySelector.match(/\[([a-z][a-z-]+)(=['|"]?([^\]]*)['|"]?)?\]/gi);
     let node = (nodeType) ? nodeType[0] : 'div';
 
     if (id && id.length > 1) {
