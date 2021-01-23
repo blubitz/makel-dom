@@ -3,7 +3,10 @@
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
 // Create a DOM element from a CSS query with option to include content
-export function dom(s) { return document.querySelector(s) }
+export function dom(parent, child=null) {
+  if (child === null) return document.querySelector(parent)
+  return parent.querySelector(child)
+}
 
 export function makel(querySelector = 'div', ...content) {
     const attr_regex = /\[([a-z][a-z-]+)(=['|"]?([^\]]*)['|"]?)?\]/gi
