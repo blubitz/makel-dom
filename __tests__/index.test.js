@@ -1,6 +1,6 @@
-import { makel } from '../src/index';
+import { makel, dom } from '../src/index';
 
-describe('list all possibilities', () => {
+describe('list all possibilities of makel', () => {
     it('should return <div></div>', () => {
         var elt = makel();
         var result = '<div></div>';
@@ -46,4 +46,20 @@ describe('list all possibilities', () => {
         var result = '<h1></h1>';
         expect(elt.outerHTML).toBe(result);
     });
+});
+
+describe('list all possibilities of dom', () => {
+  it('should return a single HTMLElement', () => {
+    document.body.innerHTML = `<div id="test"></div>`
+    const result = dom('#test')
+    expect(result.outerHTML).toBe(document.body.innerHTML)
+  });
+  it('should query relative to another HTMLElement', () => {
+    let el = document.createElement('div')
+    let elchild = document.createElement('p')
+    elchild.id = 'test'
+    el.appendChild(elchild)
+    const result = dom(el, '#test')
+    expect(result.outerHTML).toBe(elchild.outerHTML)
+  });
 });
