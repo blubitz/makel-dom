@@ -1,24 +1,24 @@
 // get the script
-const createElement = require(`../`);
+const {makel, dom} = require(`../`);
 
 let elt = null;
 
 // some examples
 
-elt = createElement(); // <div></div>
+elt = makel(); // <div></div>
 
-elt = createElement('span#my-id'); // <span id="my-id"></span>
+elt = makel('span#my-id'); // <span id="my-id"></span>
 
-elt = createElement('span.my-class'); // <span class="my-class"></span>
+elt = makel('span.my-class'); // <span class="my-class"></span>
 
-elt = createElement('span#my-id.my-class'); // <span id="my-id" class="my-class"></span>
+elt = makel('span#my-id.my-class'); // <span id="my-id" class="my-class"></span>
 
-elt = createElement('a[href=#].link'); // <a class="link" href="#"></a>
+elt = makel('a[href=#].link'); // <a class="link" href="#"></a>
 
-elt = createElement('div',
+elt = makel('div',
     'paragraphs',
-    createElement('p', 'paragraph 1'),
-    createElement('p', 'paragraph 2')
+    makel('p', 'paragraph 1'),
+    makel('p', 'paragraph 2')
 );
 // <div>
 //  paragraphs
@@ -27,4 +27,4 @@ elt = createElement('div',
 // </div>
 
 // add the generated element to the DOM
-document.querySelector('body').appendChild(elt);
+dom('body').appendChild(elt);

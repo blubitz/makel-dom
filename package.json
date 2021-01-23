@@ -1,7 +1,7 @@
 {
-  "name": "dom-create-element-query-selector",
-  "version": "1.0.5",
-  "description": "A utility function to create DOM elements with CSS selector-like syntax",
+  "name": "makel-dom",
+  "version": "1.0.0",
+  "description": "A utility function to make DOM elements with CSS selector-like syntax",
   "main": "lib/index.js",
   "files": [
     "src",
@@ -25,7 +25,7 @@
   "keywords": [
     "dom",
     "create element",
-    "createElement",
+    "makel",
     "html",
     "querySelector",
     "css"
@@ -34,7 +34,7 @@
   "license": "MPL-2.0",
   "repository": {
     "type": "git",
-    "url": "https://github.com/blubitz/dom-create-element-query-selector-fork.git"
+    "url": "https://github.com/blubitz/makel-dom.git"
   },
   "private": true,
   "devDependencies": {

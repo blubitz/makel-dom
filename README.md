@@ -1,10 +1,10 @@
-# dom-create-element-query-selector-fork
+# makel-dom
 
-> A utility function to create DOM elements with CSS selector-like syntax
+> Easily make DOM elements with CSS selector-like syntax
 
 ### Description
 
-This project was forked from [hekigan](https://github.com/hekigan/dom-create-element-query-selector) and will be under devleopment.
+This project was forked from [hekigan](https://github.com/hekigan/dom-create-element-query-selector) and is under devleopment.
 
 ### Usage
 
@@ -12,39 +12,39 @@ This project was forked from [hekigan](https://github.com/hekigan/dom-create-ele
 
 The simplest example add an empty `div` tag to the document's `body`.
 ```js
-import createElement from 'dom-create-element-query-selector';
+import {makel, dom} from 'makel-dom';
 
-const body = document.querySelector('body');
-body.appendChild(createElement());
+const body = dom('body');
+body.appendChild(makel());
 ```
 
 #### Other usages
 ```js
-import createElement from 'dom-create-element-query-selector';
+import {makel, dom} from 'makel-dom';
 
 let elt = null;
 
 // some examples
 
-elt = createElement(); // <div></div>
+elt = makel(); // <div></div>
 
 // create a span node with an id
-elt = createElement('span#my-id'); // <span id="my-id"></span>
+elt = makel('span#my-id'); // <span id="my-id"></span>
 
 // add class
-elt = createElement('span.my-class'); // <span class="my-class"></span>
+elt = makel('span.my-class'); // <span class="my-class"></span>
 
 // add id and class
-elt = createElement('span#my-id.my-class'); // <span id="my-id" class="my-class"></span>
+elt = makel('span#my-id.my-class'); // <span id="my-id" class="my-class"></span>
 
 // add class and attributes
-elt = createElement('a[href=#].link'); // <a class="link" href="#"></a>
+elt = makel('a[href=#].link'); // <a class="link" href="#"></a>
 
 // add content to the new element (text & other nodes)
-elt = createElement('div',
+elt = makel('div',
     'paragraphs',
-    createElement('p', 'paragraph 1'),
-    createElement('p', 'paragraph 2')
+    makel('p', 'paragraph 1'),
+    makel('p', 'paragraph 2')
 );
 // <div>
 //  paragraphs
@@ -53,20 +53,12 @@ elt = createElement('div',
 // </div>
 
 // add the generated element to the DOM
-document.querySelector('body').appendChild(elt);
+dom('body').appendChild(elt);
 
 ```
 
 ### Installation
-
-Install via [yarn](https://github.com/yarnpkg/yarn)
-
-	yarn add dom-create-element-query-selector (--dev)
-
-or npm
-
-	npm install dom-create-element-query-selector (--save-dev)
-
+Coming soon.
 
 ### Examples
 
