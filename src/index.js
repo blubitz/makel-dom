@@ -2,10 +2,14 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-// Create a DOM element from a CSS query with option to include content
 export function dom(parent, child=null) {
   if (child === null) return document.querySelector(parent)
   return parent.querySelector(child)
+}
+
+export function doms(parent, child=null) {
+  if (child === null) return document.querySelectorAll(parent)
+  return parent.querySelectorAll(child)
 }
 
 export function makel(querySelector = 'div', ...content) {
