@@ -1,7 +1,7 @@
 {
   "name": "makel-dom",
   "version": "1.0.0",
-  "description": "A utility function to make DOM elements with CSS selector-like syntax",
+  "description": "easily create and retrieve DOM elements with CSS like syntax",
   "main": "lib/index.js",
   "files": [
     "src",
@@ -20,7 +20,8 @@
     "test": "clear && jest",
     "test:coverage": "jest --coverage",
     "test:watch": "clear && jest --watch",
-    "lint:test": "npm run lint && npm run test:coverage"
+    "lint:test": "npm run lint && npm run test:coverage",
+    "vanilla": "node vanilla.js src/index.js"
   },
   "keywords": [
     "dom",
@@ -36,7 +37,6 @@
     "type": "git",
     "url": "https://github.com/blubitz/makel-dom.git"
   },
-  "private": true,
   "devDependencies": {
     "@babel/cli": "^7.12.10",
     "@babel/core": "^7.12.10",

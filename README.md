@@ -63,8 +63,18 @@ dom('#blog-container').appendChild(blog)
 ### Basic
 
 The simplest example is adding an empty `div` tag to the document's `body`.
+
+#### CommonJS
 ```js
 const {makel, dom} = require('makel-dom')
+
+const body = dom('body')
+body.appendChild(makel()) // makel without parameters creates a <div>
+```
+
+#### ES6
+```js
+import {makel, dom} from "./node_modules/makel-dom/src/index.js"
 
 const body = dom('body')
 body.appendChild(makel()) // makel without parameters creates a <div>
@@ -170,13 +180,79 @@ doms('ol>li')
 // ]
 ```
 
+### A note about importing
+To `require()` a module, your code will have to be running on a server that supports CommonJS. Alternatively, bundlers such as [Browserify](http://browserify.org/) and [Webpack](https://webpack.js.org/) can bundle the code for use with non-CommonJS servers.
+
+```js
+// ---------- app.js ----------
+const {makel, dom, doms} require('makel-dom');
+
+dom("body").appendChild(
+  makel("p", "Hello World")
+);
+```
+
+Then run the bundle command.
+
+```shell
+browserify app.js > bundle.js
+```
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <script src="bundle.js"></script>
+</html>
+```
+
+If you are using ES6, then CommonJS is not needed. Simply add an `import` statement and run the module from a server.
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <script type="module" src="app.js"></script>
+</html>
+```
+```js
+// ---------- app.js ----------
+import {makel, dom, doms} from "./node_modules/makel-dom/src/index.js"
+
+dom("body").appendChild(
+  makel("p", "Hello World")
+);
+```
+
+You can also reference the code directly through a `<script>` tag. Download the source [here]().
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <script src="./makel-dom.js"></script>
+  <script>
+  dom("body").appendChild(
+    makel("p", "Hello World")
+  );
+  </script>
+</html>
+```
+
 ## Builds
+The ES6 version is located in the `src` folder. The CommonJS version gets placed in `lib` and is auto compiled by [Babel](https://babeljs.io).
+```shell
+npm run build # compile with babel
+```
+ The non-module version for use with `<script>` tags is in the `dist` folder and compiles from `src`.
+```shell
+npm run vanilla # generate plain js
+```
 
-If you don't use a package manager, you can ~~[access `dom-create-element-query-selector` via unpkg (CDN)](https://unpkg.com/dom-create-element-query-selector/)~~, download the source, or point your package manager to the url.
-
-`dom-create-element-query-selector` is compiled as a collection of [CommonJS](http://webpack.github.io/docs/commonjs.html) modules & [ES2015 modules](http://www.2ality.com/2014/09/es6-modules-final.html) for bundlers that support the `jsnext:main` or `module` field in package.json (Rollup, Webpack 2)
-
-~~The `dom-create-element-query-selector` package includes precompiled production and development [UMD](https://github.com/umdjs/umd) builds in the [`dist` folder](https://unpkg.com/dom-create-element-query-selector/dist/). They can be used directly without a bundler and are thus compatible with many popular JavaScript module loaders and environments. You can drop a UMD build as a [`<script>` tag](https://unpkg.com/dom-create-element-query-selector) on your page. The UMD builds make `dom-create-element-query-selector` available as a `window.createElement` global variable.~~
+## Tests
+```shell
+npm run test
+```
+```shell
+npm run lint:test
+```
 
 ## License
 
@@ -187,6 +263,7 @@ The code is available under the [MPL-2.0](LICENSE) license.
 If you want to help fix a bug or add new features,
 1. fork this repository
 2. apply changes
-3. submit a pull request
+3. past tests
+4. submit a pull request
 
-Don't worry about making mistakes or if this is your first time contributing, Makel and Dom are understanding.
+Don't worry about making mistakes or if this is your first time contributing, Makel and Dom are understanding folks.
