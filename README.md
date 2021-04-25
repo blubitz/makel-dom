@@ -180,7 +180,7 @@ doms('ol>li')
 // ]
 ```
 
-### A note about importing
+### Module Imports
 To `require()` a module, your code will have to be running on a server that supports CommonJS. Alternatively, bundlers such as [Browserify](http://browserify.org/) and [Webpack](https://webpack.js.org/) can bundle the code for use with non-CommonJS servers.
 
 ```js
@@ -222,7 +222,7 @@ dom("body").appendChild(
 );
 ```
 
-You can also reference the code directly through a `<script>` tag. Download the source [here]().
+You can also reference the code directly through a `<script>` tag. Download the source [here](https://github.com/blubitz/makel-dom/releases/tag/v1.0.0).
 ```html
 <!-- index.html -->
 <!DOCTYPE html>
@@ -237,7 +237,7 @@ You can also reference the code directly through a `<script>` tag. Download the 
 ```
 
 ## Builds
-The ES6 version is located in the `src` folder. The CommonJS version gets placed in `lib` and is auto compiled by [Babel](https://babeljs.io).
+The ES6 version is located in the `src` folder. The CommonJS version gets placed in `lib` and is auto compiled by Babel.
 ```shell
 npm run build # compile with babel
 ```
