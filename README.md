@@ -10,8 +10,6 @@ npm i makel-dom
 
 ## Description
 
-This project was forked from [hekigan](https://github.com/hekigan/dom-create-element-query-selector).
-
 Makel and Dom are good partners. Makel creates dom elements while Dom retrieves them. Together they make dynamically loading HTML simple and elegant.
 
 Suppose we want to dynamically add a new blog post.
@@ -181,6 +179,36 @@ doms('ol>li')
 // ]
 ```
 
+### Evans usages
+Evans is a hoarder of events. Instead of assigning individual event listeners, Evans groups all listeners of an element together.
+```html
+<!--page html-->
+<input id="textbox" type="text">
+
+<button id="btn">Submit</button>
+```
+```js
+const {evans, dom} = require('makel-dom') 
+
+const input = dom('#textbox')
+const button = dom('#btn')
+
+// Instead of this
+input.addEventListener('input', event => console.log('user entered text'))
+input.addEventListener('blur', event => console.log('user exited textbox'))
+button.addEventListener('click', event => console.log(input.value))
+
+// Evans does this
+evans(input, {
+    'input': event => console.log('user entered text'),
+    'blur': event => console.log('user exited textbox')
+})
+
+evans(button, {
+    'click': event => console.log(input.value)
+})
+```
+
 ### Module Imports
 To `require()` a module, your code will have to be running on a server that supports CommonJS. Alternatively, bundlers such as [Browserify](http://browserify.org/) and [Webpack](https://webpack.js.org/) can bundle the code for use with non-CommonJS servers.
 
@@ -223,7 +251,7 @@ dom("body").appendChild(
 );
 ```
 
-You can also reference the code directly through a `<script>` tag. Download the source [here](https://github.com/blubitz/makel-dom/releases/tag/v1.0.0).
+You can also reference the code directly through a `<script>` tag. Download the source [here](https://github.com/blubitz/makel-dom/releases/tag/v1.1.0).
 ```html
 <!-- index.html -->
 <!DOCTYPE html>
