@@ -2,14 +2,20 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at https://mozilla.org/MPL/2.0/. */
 
-export function dom(parent, child=null) {
-  if (child === null) return document.querySelector(parent)
-  return parent.querySelector(child)
+export function dom(parent, child = null) {
+    if (child === null) return document.querySelector(parent)
+    return parent.querySelector(child)
 }
 
-export function doms(parent, child=null) {
-  if (child === null) return document.querySelectorAll(parent)
-  return parent.querySelectorAll(child)
+export function doms(parent, child = null) {
+    if (child === null) return document.querySelectorAll(parent)
+    return parent.querySelectorAll(child)
+}
+
+export function evans(el, obj) {
+    for (const eventName in obj) {
+        el.addEventListener(eventName, obj[eventName])
+    }
 }
 
 export function makel(querySelector = 'div', ...content) {
@@ -61,7 +67,7 @@ export function makel(querySelector = 'div', ...content) {
     return elt;
 }
 
-function CreateElementException (message) {
+function CreateElementException(message) {
     this.message = message;
     this.name = 'CreateElementException';
 }
