@@ -1,4 +1,4 @@
-import { makel, dom, doms } from '../src/index';
+import { makel, dom, doms, evans } from '../src/index';
 
 describe('list all possibilities of makel', () => {
     it('should return <div></div>', () => {
@@ -77,5 +77,34 @@ describe('list all possibilities of doms', () => {
     el.appendChild(elchild).appendChild(elchild2)
     const result = doms(el, 'p')
     expect(result.length).toBe(2)
+  });
+});
+
+describe('list all possibilities of evans', () => {
+  it('should bind an event', () => {
+    const el = document.createElement('button')
+    let result = 3
+    evans(el, {
+      'click': event => {
+        result += 1
+      }
+    })
+    el.click()
+    expect(result).toBe(4)
+  });
+  it('should bind multiple events', () => {
+    const el = document.createElement('input')
+    let result = ''
+    evans(el, {
+      'mousedown': event => {
+        result += 'b'
+      },
+      'click': event => {
+        result += 'a'
+      }
+    })
+    el.click()
+    el.dispatchEvent(new Event('mousedown'))
+    expect(result).toBe('ab')
   });
 });
