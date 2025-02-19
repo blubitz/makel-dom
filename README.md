@@ -1,39 +1,68 @@
 [![npm](https://img.shields.io/npm/v/makel-dom?style=flat-square)](https://www.npmjs.com/package/makel-dom) ![npm bundle size](https://img.shields.io/bundlephobia/min/makel-dom)
 # makel-dom
 
-> easily create and retrieve DOM elements with CSS like syntax
+> easily create and retrieve DOM elements with CSS like syntax and add event listeners
 
 ## Installation
 ```shell
 npm i makel-dom
 ```
 
+## What's new in v1.2.0
+
+You can now add event listeners with Evans using CSS selectors, which also enables delegation. This allows the listeners to work on dynamically added elements. Only listeners added via CSS selectors support delegation, while those attached directly to elements do not.
+```js
+import {dom, evans} from "./node_modules/makel-dom/src/index.js"
+
+// New!
+evans('.item', {  // css selector string (uses delegation)
+  'click': event => { 
+      // triggers for elements with class="item", even those added to the DOM later
+  }
+})
+
+evans(dom('.item'), {  // element (no delegation)
+  'click': event => { 
+      // triggers for this element only
+  }
+})
+```
+
 ## Description
 
 Makel and Dom are good partners. Makel creates dom elements while Dom retrieves them. Together they make dynamically loading HTML simple and elegant.
 
-Suppose we want to dynamically add a new blog post.
+Let's say we want to dynamically add a new blog post.
 ```html
-<!-- page html-->
+<!-- File: "./index.html" -->
+
 <body>
   <div id="blog-container">
+
     <article class="blog-post">
       <p>Paragraph 1</p>
       <img class="thumbnail" src="photo1.png">
     </article>
+
     <!-- we want to add another post here
     <article class="blog-post">
       <p>Paragraph 2</p>
       <img class="thumbnail" src="photo2.png">
     </article>
     -->
+
   </div>
+
+  <script type="module" src="./index.js">
 </body>
 ```
 
-Doing this using plain javascript can be a hassle.
+Doing this in plain JS can be a hassle.
 ```js
+// File: "./index.js"
+
 // typical way of dynamically add a blog post with javascript
+
 let blog = document.createElement('article')
 blog.classList.add('blog-post')
 let p = document.createElement('p')
@@ -47,14 +76,80 @@ document.getElementById('blog-container').appendChild(blog)
 
 With the help of Makel and Dom, things become easier.
 ```js
+// File: "./index.js"
+
 // using makel-dom
-const {makel, dom} = require('makel-dom')
+
+import {makel, dom} from "./node_modules/makel-dom/src/index.js"
 
 let blog = makel('article.blog-post',
               makel('p', 'Paragraph 2'),
               makel('img.thumbnail[src=photo1.png]'))
 
 dom('#blog-container').appendChild(blog)
+```
+
+## Getting started
+
+### Import with `require()`
+
+To `require()` this module, your code will have to be running on a server that supports CommonJS. Alternatively, bundlers such as [Browserify](http://browserify.org/) and [Webpack](https://webpack.js.org/) can bundle the code for use with non-CommonJS servers.
+
+```js
+// ---------- app.js ----------
+const {makel, dom, doms, evans} = require('makel-dom');
+
+dom("body").appendChild(
+  makel("p", "Hello World")
+);
+```
+
+Then run the bundle command.
+
+```shell
+browserify app.js > bundle.js
+```
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <script src="bundle.js"></script>
+</html>
+```
+
+### Import with `import`
+
+If you are using ES6, then CommonJS is not needed. Simply add an `import` statement and run the module from a server.
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <script type="module" src="app.js"></script>
+</html>
+```
+```js
+// ---------- app.js ----------
+import {makel, dom, doms, evans} from "./node_modules/makel-dom/src/index.js"
+
+dom("body").appendChild(
+  makel("p", "Hello World")
+);
+```
+
+### Import with `<script>`
+
+You can also reference the code directly through a `<script>` tag. Download the source [here](https://github.com/blubitz/makel-dom/releases/tag/v1.1.0).
+```html
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+  <script src="./makel-dom.js"></script>
+  <script>
+  dom("body").appendChild(
+    makel("p", "Hello World")
+  );
+  </script>
+</html>
 ```
 
 ## Usage
@@ -118,7 +213,7 @@ elt = makel('div',
 dom('body').appendChild(elt)
 ```
 ### Dom usages
-Dom is equivalent to `document.querySelector()`.
+Dom is equivalent to [`document.querySelector()`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector).
 ```js
 const {dom} = require('makel-dom')
 
@@ -134,7 +229,7 @@ dom('div>p')
 // same as document.querySelector('.blog-post')
 dom('.blog-post')
 ```
-In addition, Dom can select elements relative to another element, even ones not yet added to the DOM.
+In addition, Dom can select elements relative to another element, even ones not yet added to the DOM tree.
 ```js
 const {makel, dom} = require('makel-dom')
 
@@ -158,7 +253,8 @@ dom('body').appendChild(elt)
 ### _Doms_ usages
 Overlooked by most, Dom has a brother Doms who likes to keep to himself. Yet when called upon, Doms is kind and offers plenty of help. Doms can find all the elements Dom misses.
 ```html
-<!--page html-->
+<!-- File: "./index.html" -->
+
 <ol>
   <li>item1</li>
   <li>item2</li>
@@ -181,8 +277,10 @@ doms('ol>li')
 
 ### Evans usages
 Evans is a hoarder of events. Instead of assigning individual event listeners, Evans groups all listeners of an element together.
+
 ```html
-<!--page html-->
+<!-- index.html -->
+
 <input id="textbox" type="text">
 
 <button id="btn">Submit</button>
@@ -209,60 +307,34 @@ evans(button, {
 })
 ```
 
-### Module Imports
-To `require()` a module, your code will have to be running on a server that supports CommonJS. Alternatively, bundlers such as [Browserify](http://browserify.org/) and [Webpack](https://webpack.js.org/) can bundle the code for use with non-CommonJS servers.
-
-```js
-// ---------- app.js ----------
-const {makel, dom, doms} require('makel-dom');
-
-dom("body").appendChild(
-  makel("p", "Hello World")
-);
-```
-
-Then run the bundle command.
-
-```shell
-browserify app.js > bundle.js
-```
+#### CSS Selectors
+Evans can also add event listeners to elements using CSS selectors. These listeners are [delegated](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Event_bubbling#event_delegation), allowing them to work on dynamically added elements — elements that are created and inserted into the page after it has loaded. Only event listeners added using CSS selectors have delegation enabled, while those attached directly to elements do not.
 ```html
 <!-- index.html -->
-<!DOCTYPE html>
-<html>
-  <script src="bundle.js"></script>
-</html>
-```
 
-If you are using ES6, then CommonJS is not needed. Simply add an `import` statement and run the module from a server.
-```html
-<!-- index.html -->
-<!DOCTYPE html>
-<html>
-  <script type="module" src="app.js"></script>
-</html>
+<ul>
+  <li class="item">Click to Add!</li>
+</ul>
 ```
 ```js
-// ---------- app.js ----------
-import {makel, dom, doms} from "./node_modules/makel-dom/src/index.js"
+const {dom, makel, evans} = require('makel-dom') 
 
-dom("body").appendChild(
-  makel("p", "Hello World")
-);
-```
+evans('.item', {  // css selector string (uses delegation)
+  'click': event => { // triggers for <li class="item">, even those added later
+    let el = makel('li.item', 'Click to add another!')
+    dom('ul').append(el)
+  }
+})
 
-You can also reference the code directly through a `<script>` tag. Download the source [here](https://github.com/blubitz/makel-dom/releases/tag/v1.1.0).
-```html
+/*
 <!-- index.html -->
-<!DOCTYPE html>
-<html>
-  <script src="./makel-dom.js"></script>
-  <script>
-  dom("body").appendChild(
-    makel("p", "Hello World")
-  );
-  </script>
-</html>
+
+<ul>
+  <li class="item">Click to Add!</li>
+  <li class="item">Click to add another!</li>
+</ul>
+
+*/
 ```
 
 ## Builds
