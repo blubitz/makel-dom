@@ -13,8 +13,72 @@ export function doms(parent, child = null) {
 }
 
 export function evans(el, obj) {
-    for (const eventName in obj) {
-        el.addEventListener(eventName, obj[eventName])
+    if (typeof el == 'object') {
+        for (const eventName in obj) {
+            el.addEventListener(eventName, obj[eventName])
+        }
+    }
+    else if (typeof el == 'string') {
+        // A delegator is a CSS selector that specifies elements whose 
+        // events are handled by a user-defined handler on document.body
+        const delegator = el
+
+        // The delegateListeners DOM attribute maintains a global object of listeners
+        // { event1: { delegator1: [handler1, handler2, ...] } }
+        document.body.delegateListeners ??= {}
+
+        // same handler for all events of document.body
+        // returns handler function once given event type
+        const delegatedHandler = eventName => (event, ...rest) => {
+            let element = event.target
+            let matched = false
+            let stopProp = false
+            let stopImmediateProp = false
+
+            // override stopPropagation()
+            const _stopPropagation = event.stopPropagation
+            event.stopPropagation = () => stopProp = true
+
+            // override stopImmediatePropagation()
+            const _stopImmediatePropagation = event.stopImmediatePropagation
+            event.stopImmediatePropagation = () => stopImmediateProp = true
+
+            const delegatorsInEvent = document.body.delegateListeners[eventName]
+            // 'bubble' event from event.target to document
+            while (!matched && element != document.documentElement) {
+                let delegator = Object.keys(delegatorsInEvent).find(selector => element.matches(selector))
+                matched = delegator != undefined
+                if (matched) {
+                    for (const handler of delegatorsInEvent[delegator]) {
+                        if (!stopImmediateProp) handler(event, ...rest)
+                    }
+                    matched = stopProp
+                }
+                // go up the DOM tree
+                element = element.parentElement
+            }
+
+            // restore default function
+            event.stopPropagation = _stopPropagation
+
+            // restore default function
+            event.stopImmediatePropagation = _stopImmediatePropagation
+
+            event.stopImmediatePropagation()
+        }
+
+        for (const eventName in obj) {
+            // add listener to document body only for unique event types
+            if (document.body.delegateListeners[eventName] == undefined) {
+                document.body.delegateListeners[eventName] = {}
+                document.body.addEventListener(
+                    eventName, delegatedHandler(eventName),
+                    true    // use capture mode to enable handling events that do not bubble
+                )
+            }
+            document.body.delegateListeners[eventName][delegator] ??= []
+            document.body.delegateListeners[eventName][delegator].push(obj[eventName])
+        }
     }
 }
 

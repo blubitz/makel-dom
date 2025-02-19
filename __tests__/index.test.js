@@ -107,4 +107,170 @@ describe('list all possibilities of evans', () => {
     el.dispatchEvent(new Event('mousedown'))
     expect(result).toBe('ab')
   });
+
+  it('should bind events to query selected element', () => {
+    document.body.replaceWith(document.createElement("body"))
+    const el = document.createElement('input')
+    el.id = 'el'
+    document.body.append(el)
+    let result = ''
+    evans('#el', {
+      'mousedown': event => {
+        result += 'b'
+      },
+      'click': event => {
+        result += 'a'
+      },
+      'blur': event => {
+        result += 'c'
+      },
+      'mouseenter': event => {
+        result += 'd'
+      }
+    })
+    el.click()
+    el.dispatchEvent(new Event('mousedown'))
+    el.dispatchEvent(new Event('blur'))
+    el.dispatchEvent(new Event('mouseenter'))
+    expect(result).toBe('abcd')
+  });
+
+  it('should bubble children events of query selected element', () => {
+    document.body.replaceWith(document.createElement("body"))
+    const el = document.createElement('div')
+    el.id = 'el'
+    const elChild = document.createElement('input')
+    elChild.id = 'elChild'
+    el.append(elChild)
+    document.body.append(el)
+    let result = 3
+    evans('#el', {
+      'click': event => {
+        result += 1
+      }
+    })
+    elChild.click()
+    expect(result).toBe(4)
+  });
+
+  it('should bind events to dynamically appended elements', () => {
+    document.body.replaceWith(document.createElement("body"))
+    let result = 3
+    evans('.listItem', {
+      'click': event => {
+        result += 1
+      }
+    })
+    const el1 = document.createElement('input')
+    el1.id = 'el1'
+    el1.classList.add('listItem')
+    const el2 = document.createElement('input')
+    el2.id = 'el2'
+    el2.classList.add('listItem')
+    const el = document.createElement('div')
+    el.id = 'el'
+    el.append(el1, el2)
+    document.body.append(el)
+    el1.click()
+    el2.click()
+    expect(result).toBe(5)
+  });
+
+  it('should trigger multiple listeners when bubbling events', () => {
+    document.body.replaceWith(document.createElement("body"))
+    let result = ''
+    const popup = document.createElement('div')
+    popup.id = 'popup'
+    const background = document.createElement('div')
+    background.id = 'bg'
+    background.append(popup)
+    document.body.append(background)
+    evans('#bg', {
+      'click': event => result += 'bg'
+    })
+    evans('#popup', {
+      'click': event => {
+        result += 'popup'
+      }
+    })
+    evans('body', {
+      'click': event => {
+        result += 'body'
+      }
+    })
+    popup.click()
+    expect(result).toBe('popupbgbody')
+  });
+
+  it('should not bubble events after calling stopPropagation()', () => {
+    document.body.replaceWith(document.createElement("body"))
+    let result = ''
+    const popup = document.createElement('div')
+    popup.id = 'popup'
+    const background = document.createElement('div')
+    background.id = 'bg'
+    background.append(popup)
+    document.body.append(background)
+    evans('#bg', {
+      'click': event => {
+        result += 'bg'
+        event.stopPropagation()
+      }
+    })
+    evans('#popup', {
+      'click': event => {
+        result += 'popup'
+      }
+    })
+    evans('body', {
+      'click': event => {
+        result += 'body'
+      }
+    })
+    popup.click()
+    expect(result).toBe('popupbg')
+  });
+
+  it('should propagate to multiple listeners of the same event', () => {
+    document.body.replaceWith(document.createElement("body"))
+    let result = ''
+    const el = document.createElement('div')
+    el.id = 'el'
+    document.body.append(el)
+    evans('#el', {
+      'click': event => result += 'a'
+    })
+    evans('#el', {
+      'click': event => result += 'b'
+    })
+    el.click()
+    expect(result).toBe('ab')
+  });
+
+  it('should not propagate to other listeners when using stopImmediatePropagation()', () => {
+    document.body.replaceWith(document.createElement("body"))
+    let result = ''
+    const el = document.createElement('div')
+    el.id = 'el'
+    const elChild = document.createElement('div')
+    elChild.id = 'elChild'
+    el.append(elChild)
+    document.body.append(el)
+    evans('#el', {
+      'click': event => {
+        result += 'a'
+      }
+    })
+    evans('#elChild', {
+      'click': event => {
+        result += 'b'
+        event.stopImmediatePropagation()
+      }
+    })
+    evans('#elChild', {
+      'click': event => result += 'c'
+    })
+    elChild.click()
+    expect(result).toBe('b')
+  });
 });
