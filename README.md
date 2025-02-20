@@ -12,33 +12,22 @@ npm i makel-dom
 
 You can now add event listeners with Evans using CSS selectors, which also enables delegation. This allows the listeners to work on dynamically added elements. Only listeners added via CSS selectors support delegation, while those attached directly to elements do not.
 ```js
-import {dom, evans} from "./node_modules/makel-dom/src/index.js"
-
-// New!
-evans('.item', {  // css selector string (uses delegation)
+evans('.item', {  // CSS selector string (uses delegation)
   'click': event => { 
       // triggers for elements with class="item", even those added to the DOM later
-  }
-})
-
-evans(dom('.item'), {  // element (no delegation)
-  'click': event => { 
-      // triggers for this element only
   }
 })
 ```
 
 ## Description
 
-Makel and Dom are good partners. Makel creates dom elements while Dom retrieves them. Together they make dynamically loading HTML simple and elegant.
+`makel()` creates dom elements while `dom()` retrieves them. Together, they make dynamically loading HTML simple and elegant.
 
-Let's say we want to dynamically add a new blog post.
+For example, let's say we want to dynamically add a new blog post.
 ```html
-<!-- File: "./index.html" -->
-
+<!-- index.html -->
 <body>
   <div id="blog-container">
-
     <article class="blog-post">
       <p>Paragraph 1</p>
       <img class="thumbnail" src="photo1.png">
@@ -50,17 +39,14 @@ Let's say we want to dynamically add a new blog post.
       <img class="thumbnail" src="photo2.png">
     </article>
     -->
-
   </div>
-
   <script type="module" src="./index.js">
 </body>
 ```
 
 Doing this in plain JS can be a hassle.
 ```js
-// File: "./index.js"
-
+// index.js
 // typical way of dynamically add a blog post with javascript
 let blog = document.createElement('article')
 blog.classList.add('blog-post')
@@ -73,10 +59,9 @@ blog.appendChild(p).appendChild(img)
 document.getElementById('blog-container').appendChild(blog)
 ```
 
-With the help of Makel and Dom, things become easier.
+With the help of `makel()` and `dom()`, things become easier.
 ```js
-// File: "./index.js"
-
+// index.js
 // using makel-dom
 import {makel, dom} from "./node_modules/makel-dom/src/index.js"
 
@@ -89,12 +74,22 @@ dom('#blog-container').appendChild(blog)
 
 ## Getting started
 
-### Import with `require()`
+### CommonJS
+```js
+const {makel, dom} = require('makel-dom')
+````
+
+### ES6
+```js
+import {makel, dom} from "./node_modules/makel-dom/src/index.js"
+```
+
+### Bundlers
 
 To `require()` this module, your code will have to be running on a server that supports CommonJS. Alternatively, bundlers such as [Browserify](http://browserify.org/) and [Webpack](https://webpack.js.org/) can bundle the code for use with non-CommonJS servers.
 
 ```js
-// ---------- app.js ----------
+// app.js
 const {makel, dom, doms, evans} = require('makel-dom');
 
 dom("body").appendChild(
@@ -115,26 +110,7 @@ browserify app.js > bundle.js
 </html>
 ```
 
-### Import with `import`
-
-If you are using ES6, then CommonJS is not needed. Simply add an `import` statement and run the module from a server.
-```html
-<!-- index.html -->
-<!DOCTYPE html>
-<html>
-  <script type="module" src="app.js"></script>
-</html>
-```
-```js
-// ---------- app.js ----------
-import {makel, dom, doms, evans} from "./node_modules/makel-dom/src/index.js"
-
-dom("body").appendChild(
-  makel("p", "Hello World")
-);
-```
-
-### Import with `<script>`
+### Script tag
 
 You can also reference the code directly through a `<script>` tag. Download the source [here](https://github.com/blubitz/makel-dom/tags).
 ```shell
@@ -161,24 +137,29 @@ npm run vanilla
 
 The simplest example is adding an empty `div` tag to the document's `body`.
 
-#### CommonJS
 ```js
-const {makel, dom} = require('makel-dom')
-
-const body = dom('body')
-body.appendChild(makel()) // makel without parameters creates a <div>
-```
-
-#### ES6
-```js
-import {makel, dom} from "./node_modules/makel-dom/src/index.js"
-
 const body = dom('body')
 body.appendChild(makel()) // makel without parameters creates a <div>
 ```
 
 ### Makel usages
+
 Makel helps create DOM elements.
+
+#### Syntax
+
+```js
+makel(cssSelector)
+makel(cssSelector, innerText /* , element1, element2, ... */)
+makel(cssSelector, element /* , element2, element3, ... */)
+```
+
+#### Return value
+
+An [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element).
+
+#### Examples
+
 ```js
 const {makel, dom} = require('makel-dom')
 
@@ -217,6 +198,19 @@ dom('body').appendChild(elt)
 ```
 ### Dom usages
 Dom is equivalent to [`document.querySelector()`](https://developer.mozilla.org/en-US/docs/Web/API/Document/querySelector).
+
+#### Syntax
+
+```js
+dom(cssSelector)
+dom(element, cssSelector)
+```
+
+#### Return value
+An [Element](https://developer.mozilla.org/en-US/docs/Web/API/Element) that is the first matching element of the selector.
+
+#### Examples
+
 ```js
 const {dom} = require('makel-dom')
 
@@ -255,20 +249,23 @@ dom('body').appendChild(elt)
 ```
 ### _Doms_ usages
 Overlooked by most, Dom has a brother Doms who likes to keep to himself. Yet when called upon, Doms is kind and offers plenty of help. Doms can find all the elements Dom misses.
-```html
-<!-- File: "./index.html" -->
 
-<ol>
-  <li>item1</li>
-  <li>item2</li>
-  <li>item3</li>
-</ol>
-```
+#### Syntax
+
 ```js
-const {dom, doms} = require('makel-dom')
+doms(cssSelector)
+doms(element, cssSelector)
+```
 
-dom('ol>li') // <li>item1</li>
+#### Return value
+A [NodeList](https://developer.mozilla.org/en-US/docs/Web/API/NodeList).
 
+#### Examples
+
+```js
+const {doms} = require('makel-dom')
+
+// return all <li> in DOM that is a child of <ol>
 // same as document.querySelectorAll('ol>li')
 doms('ol>li')
 // NodeList(3) [
@@ -281,25 +278,24 @@ doms('ol>li')
 ### Evans usages
 Evans is a hoarder of events. Instead of assigning individual event listeners, Evans groups all listeners of an element together.
 
-```html
-<!-- index.html -->
+#### Syntax
 
-<input id="textbox" type="text">
-
-<button id="btn">Submit</button>
+```js
+evans(element, obj)
+evans(cssSelector, obj)
 ```
+
+#### Return value
+None.
+
+#### Examples
+
 ```js
 const {evans, dom} = require('makel-dom') 
 
 const input = dom('#textbox')
 const button = dom('#btn')
 
-// Instead of this
-input.addEventListener('input', event => console.log('user entered text'))
-input.addEventListener('blur', event => console.log('user exited textbox'))
-button.addEventListener('click', event => console.log(input.value))
-
-// Evans does this
 evans(input, {
     'input': event => console.log('user entered text'),
     'blur': event => console.log('user exited textbox')
@@ -308,13 +304,19 @@ evans(input, {
 evans(button, {
     'click': event => console.log(input.value)
 })
+
+/* Same as doing
+input.addEventListener('input', event => console.log('user entered text'))
+input.addEventListener('blur', event => console.log('user exited textbox'))
+button.addEventListener('click', event => console.log(input.value))
+*/
+
 ```
 
 #### CSS Selectors
 Evans can also add event listeners to elements using CSS selectors. These listeners are [delegated](https://developer.mozilla.org/en-US/docs/Learn_web_development/Core/Scripting/Event_bubbling#event_delegation), allowing them to work on dynamically added elements — elements that are created and inserted into the page after it has loaded. Only event listeners added using CSS selectors have delegation enabled, while those attached directly to elements do not.
 ```html
 <!-- index.html -->
-
 <ul>
   <li class="item">Click to Add!</li>
 </ul>
@@ -331,12 +333,10 @@ evans('.item', {  // css selector string (uses delegation)
 
 /*
 <!-- index.html -->
-
 <ul>
   <li class="item">Click to Add!</li>
   <li class="item">Click to add another!</li>
 </ul>
-
 */
 ```
 
@@ -365,9 +365,9 @@ The code is available under the [MPL-2.0](LICENSE) license.
 ## Contributing
 
 If you want to help fix a bug or add new features,
-1. fork this repository
-2. apply changes
-3. past tests
-4. submit a pull request
+1. Fork this repository
+2. Apply changes
+3. Past tests
+4. Submit a pull request
 
-Don't worry about making mistakes or if this is your first time contributing, Makel and Dom are understanding folks.
+Don't worry about making mistakes or if this is your first time contributing.
