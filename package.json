@@ -1,7 +1,7 @@
 {
   "name": "makel-dom",
   "version": "1.2.0",
-  "description": "easily create and retrieve DOM elements with CSS like syntax",
+  "description": "easily create and retrieve DOM elements with CSS selectors and group event listeners",
   "main": "lib/index.js",
   "files": [
     "src",
@@ -25,11 +25,11 @@
   },
   "keywords": [
     "dom",
-    "create element",
-    "makel",
-    "html",
-    "querySelector",
-    "css"
+    "css",
+    "selector",
+    "event",
+    "javascript",
+    "querySelector"
   ],
   "author": "blubitz",
   "license": "MPL-2.0",

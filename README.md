@@ -1,7 +1,7 @@
 [![npm](https://img.shields.io/npm/v/makel-dom?style=flat-square)](https://www.npmjs.com/package/makel-dom) ![npm bundle size](https://img.shields.io/bundlephobia/min/makel-dom)
 # makel-dom
 
-> easily create and retrieve DOM elements with CSS like syntax and add event listeners
+> Easily create and retrieve DOM elements with CSS selectors and group event listeners
 
 ## Installation
 ```shell
