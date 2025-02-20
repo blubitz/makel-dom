@@ -1,6 +1,6 @@
 {
   "name": "makel-dom",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "description": "easily create and retrieve DOM elements with CSS like syntax",
   "main": "lib/index.js",
   "files": [
