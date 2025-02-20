@@ -62,7 +62,6 @@ Doing this in plain JS can be a hassle.
 // File: "./index.js"
 
 // typical way of dynamically add a blog post with javascript
-
 let blog = document.createElement('article')
 blog.classList.add('blog-post')
 let p = document.createElement('p')
@@ -79,7 +78,6 @@ With the help of Makel and Dom, things become easier.
 // File: "./index.js"
 
 // using makel-dom
-
 import {makel, dom} from "./node_modules/makel-dom/src/index.js"
 
 let blog = makel('article.blog-post',
@@ -138,7 +136,12 @@ dom("body").appendChild(
 
 ### Import with `<script>`
 
-You can also reference the code directly through a `<script>` tag. Download the source [here](https://github.com/blubitz/makel-dom/releases/tag/v1.1.0).
+You can also reference the code directly through a `<script>` tag. Download the source [here](https://github.com/blubitz/makel-dom/tags).
+```shell
+# source root folder
+npm run vanilla
+```
+ The non-module version for use with `<script>` tags is in the `dist` folder, which can be moved into your project.
 ```html
 <!-- index.html -->
 <!DOCTYPE html>
