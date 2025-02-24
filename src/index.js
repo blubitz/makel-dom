@@ -93,7 +93,7 @@ export function makel(querySelector = 'div', ...content) {
     let node = (nodeType) ? nodeType[0] : 'div';
 
     if (id && id.length > 1) {
-        throw CreateElementException('only 1 ID is allowed');
+        throw 'only 1 ID is allowed';
     }
 
     const elt = document.createElement(node);
@@ -127,9 +127,4 @@ export function makel(querySelector = 'div', ...content) {
     });
 
     return elt;
-}
-
-function CreateElementException(message) {
-    this.message = message;
-    this.name = 'CreateElementException';
 }

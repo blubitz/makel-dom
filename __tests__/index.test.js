@@ -46,6 +46,10 @@ describe('list all possibilities of makel', () => {
         var result = '<h1></h1>';
         expect(elt.outerHTML).toBe(result);
     });
+
+    it('should throw an exception for multiple ids', () => {
+      expect(() => makel('#a#b')).toThrow('only 1 ID is allowed')
+    });
 });
 
 describe('list all possibilities of dom', () => {
