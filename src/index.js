@@ -63,8 +63,6 @@ export function evans(el, obj) {
 
             // restore default function
             event.stopImmediatePropagation = _stopImmediatePropagation
-
-            event.stopImmediatePropagation()
         }
 
         for (const eventName in obj) {

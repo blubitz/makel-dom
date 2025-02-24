@@ -273,4 +273,20 @@ describe('list all possibilities of evans', () => {
     elChild.click()
     expect(result).toBe('b')
   });
+
+  it('should handle events by element and query selection together', () => {
+    document.body.replaceWith(document.createElement("body"))
+    const el = document.createElement('div')
+    el.id = 'el'
+    document.body.append(el)
+    let result = ''
+    evans(el, {
+      'click': e => result += 'a'
+    })
+    evans('#el', {
+      'click': e => result += 'b'
+    })
+    el.click()
+    expect(result).toBe('ba')
+  })
 });
