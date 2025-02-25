@@ -293,4 +293,37 @@ describe('list all possibilities of evans', () => {
     el.click()
     expect(result).toBe('ba')
   })
+
+  it('should set event.currentTarget to queried element', () => {
+    document.body.replaceWith(document.createElement("body"))
+    const el = document.createElement('div')
+    el.id = "el"
+    const elChild = document.createElement('div')
+    elChild.id = 'elChild'
+    el.append(elChild)
+    document.body.append(el)
+    let result
+    evans('#el', {
+      'click': event => {
+        result = event.currentTarget
+      }
+    })
+    elChild.click()
+    expect(result).toEqual(el)
+  })
+
+  it('should pass event object properties into handler', () => {
+    document.body.replaceWith(document.createElement("body"))
+    const el = document.createElement('div')
+    el.id = "el"
+    document.body.append(el)
+    let result
+    evans('#el', {
+      'click': event => {
+        result = event.type
+      }
+    })
+    el.click()
+    expect(result).toBe('click')
+  })
 });

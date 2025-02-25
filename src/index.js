@@ -35,13 +35,15 @@ export function evans(el, obj) {
             let stopProp = false
             let stopImmediateProp = false
 
-            // override stopPropagation()
-            const _stopPropagation = event.stopPropagation
-            event.stopPropagation = () => stopProp = true
-
-            // override stopImmediatePropagation()
-            const _stopImmediatePropagation = event.stopImmediatePropagation
-            event.stopImmediatePropagation = () => stopImmediateProp = true
+            // override event
+            let proxyEvent = new Proxy(event, {
+                get(target, prop) {
+                    if (prop == 'currentTarget') return element
+                    else if (prop == 'stopPropagation') return () => stopProp = true
+                    else if (prop == 'stopImmediatePropagation') return () => stopImmediateProp = true
+                    return target[prop]
+                }
+            })
 
             const delegatorsInEvent = document.body.delegateListeners[eventName]
             // 'bubble' event from event.target to document
@@ -50,19 +52,13 @@ export function evans(el, obj) {
                 matched = delegator != undefined
                 if (matched) {
                     for (const handler of delegatorsInEvent[delegator]) {
-                        if (!stopImmediateProp) handler(event, ...rest)
+                        if (!stopImmediateProp) handler(proxyEvent, ...rest)
                     }
                     matched = stopProp
                 }
                 // go up the DOM tree
                 element = element.parentElement
             }
-
-            // restore default function
-            event.stopPropagation = _stopPropagation
-
-            // restore default function
-            event.stopImmediatePropagation = _stopImmediatePropagation
         }
 
         for (const eventName in obj) {
