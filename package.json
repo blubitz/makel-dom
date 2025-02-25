@@ -1,6 +1,6 @@
 {
   "name": "makel-dom",
-  "version": "1.2.3",
+  "version": "1.2.4",
   "description": "easily create and retrieve DOM elements with CSS selectors and group event listeners",
   "main": "lib/index.js",
   "files": [
